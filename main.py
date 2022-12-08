@@ -29,6 +29,17 @@ def Floyd_Warshall(C):
     """
     return C
 
+def print_inf(C):
+    """
+    Fonction utilitaire pour print les matrices avec 'inf' au lieu de '1.e+12'
+    :param C: Une matrice numpy n x n
+    """
+    P = C.copy()
+    for i in range(len(P)):
+        for j in range(len(P[i])):
+            if (P[i][j] == 1.e+12): P[i][j] = "inf"
+    print(P)
+
 if __name__ == '__main__':
     # Lecture de la matrice de coûts C à partir d'un fichier .csv
     file = open('costs_matrix_C.csv')
@@ -41,6 +52,6 @@ if __name__ == '__main__':
         index += 1
     file.close()
 
-    print(Dijkstra(C))
-    print(Bellman_Ford(C))
-    print(Floyd_Warshall(C))
+    print_inf(Dijkstra(C))
+    print_inf(Bellman_Ford(C))
+    print_inf(Floyd_Warshall(C))
