@@ -59,7 +59,7 @@ def Floyd_Warshall(C):
     :param C : Une matrice numpy n × n de coûts d’un graphe non dirigé, pondéré et connecté G
     :return D : Une matrice n × n D contenant les distances des plus courts chemins entre toutes les paires de nœuds du graphe G
     """
-    D = C.copy()
+    D = C
     for k in range(len(C)):
         for i in range(len(C)):
             for j in range(len(C)):
