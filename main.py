@@ -60,6 +60,10 @@ def Floyd_Warshall(C):
     :return D : Une matrice n × n D contenant les distances des plus courts chemins entre toutes les paires de nœuds du graphe G
     """
     D = C
+    for k in range(len(C)):
+        for i in range(len(C)):
+            for j in range(len(C)):
+                D[i][j] = min(D[i][j], D[i][k] + D[k][j])
     return D
 
 def is_symmetrical(C):
