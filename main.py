@@ -6,17 +6,17 @@
 import numpy as np
 import csv
 
+
 inf = 1.e+12
 
 def Dijkstra(C):
-
     """
     Trouve les plus courts chemins par l'algorithme de Dijkstra
     :param C : Une matrice numpy n × n de coûts d’un graphe non dirigé, pondéré et connecté G
     :return D : Une matrice n × n D contenant les distances des plus courts chemins entre toutes les paires de nœuds du graphe G
     """
     global inf
-    D = np.zeros((len(C), len(C))) # matrice de retour
+    D = np.zeros((len(C), len(C)))  # matrice de retour
     for i in range(len(C)):
         # initialiser distances[i] et array visited
         distances = [inf]*len(C)
@@ -52,13 +52,12 @@ def Bellman_Ford(C):
     :param C : Une matrice numpy n × n de coûts d’un graphe non dirigé, pondéré et connecté G
     :return D : Une matrice n × n D contenant les distances des plus courts chemins entre toutes les paires de nœuds du graphe G
     """
-    
+
     # On initialise la matrice de retour
-    D = np.zeros((len(C), len(C))) 
+    D = np.zeros((len(C), len(C)))
 
     # On parcourt le graphe pour avoir toutes les distances 
     for i in range(len(C)):
-        
         v = len(C)
 
         # On crée notre tableau de distances en le remplissant d'inf
@@ -66,31 +65,30 @@ def Bellman_Ford(C):
 
         # Source mise à 0
         distances[i] = 0
-        
+
         # On calcule la distance 
         for _ in range(v - 1):
-            for j in range(v): 
-                for k in range(v): 
+            for j in range(v):
+                for k in range(v):
                     w = C[j][k]
                     if distances[j] != inf and (distances[j] + w < distances[k]):
                         distances[k] = distances[j] + w
-        
 
         # On vérifie si le graphe contient un cycle négatif 
         # Si c'est le cas, il n'y a pas de plus court chemin
         j = 0
         k = 0
-        found_negative= False        
+        found_negative = False
         while j < v and not found_negative:
-            while k < v and not found_negative:  
+            while k < v and not found_negative:
                 w = C[j][k]
                 if distances[j] != inf and distances[j] + w < distances[k]:
                     D[i] = inf
-                    found_negative = True  
+                    found_negative = True
                 k += 1
-            j+=1
+            j += 1
 
-        if not found_negative:      
+        if not found_negative:
             D[i] = distances
 
     return D
@@ -108,6 +106,7 @@ def Floyd_Warshall(C):
                 D[i][j] = min(D[i][j], D[i][k] + D[k][j])
     return D
 
+# méthodes auxiliaires
 def is_symmetrical(C):
     """
     Fonction auxiliaire pour vérifier qu'une matrice est bien égale à sa transposée
@@ -127,6 +126,7 @@ def print_inf(C):
             if (P[i][j] == 1.e+12): P[i][j] = "inf"
     print(P)
 
+
 if __name__ == '__main__':
     # Lecture de la matrice de coûts C à partir d'un fichier .csv
     file = open('costs_matrix_C.csv')
@@ -139,18 +139,15 @@ if __name__ == '__main__':
         index += 1
     file.close()
 
-    # prints
-
+    # impressions
     print("====== Test Djikstra ======\n")
     print_inf(Dijkstra(C.copy()))
-    print(is_symmetrical(Dijkstra(C.copy())), end="\n\n")
+    print("\n", is_symmetrical(Dijkstra(C.copy())), end="\n\n")
 
     print("====== Test Bellman Ford ======\n")
-
     print_inf(Bellman_Ford(C.copy()))
-    print(is_symmetrical(Bellman_Ford(C.copy())), end="\n\n")
+    print("\n", is_symmetrical(Bellman_Ford(C.copy())), end="\n\n")
 
     print("====== Test Floyd Warshall ======\n")
-
     print_inf(Floyd_Warshall(C.copy()))
-    print(is_symmetrical(Floyd_Warshall(C.copy())), end="\n\n")
+    print("\n", is_symmetrical(Floyd_Warshall(C.copy())), end="\n\n")
